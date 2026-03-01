@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import { useTranslations } from '../../assets/utils';
+import { allergens } from '../../assets/allergens';
+
+const t = useTranslations('en');
+
+const menuSections = [
+  {
+    title: 'Cold Dishes',
+    items: [
+      { name: 'Burrata Salad', price: '14€', desc: 'With beetroot, red cabbage, and nuts.', allergens: ['dairy', 'nuts'] },
+      { name: 'Iberian Pork Secret Carpaccio', price: '17€', desc: 'With Idiazábal oil and Granny Smith apple.', allergens: ['dairy'] },
+      { name: 'Vi Cool Steak Tartar', price: '19€', desc: 'With soy infusion, wasabi, and ginger.', allergens: ['soy', 'mustard'] },
+      { name: 'Tuna Tartar', price: '21€', desc: 'With wasabi mayo, ají, avocado, and tobiko roe.', allergens: ['fish', 'soy', 'eggs'] },
+      { name: 'Foie Gras Terrine', price: '18€', desc: 'With mango, spices, and raspberry.', allergens: ['gluten'] },
+      { name: 'Octopus Carpaccio', price: '16€', desc: 'With confit tomato, green olives, and paprika.', allergens: ['molluscs'] },
+      { name: 'Portobello Carpaccio', price: '15€', desc: 'With white truffle oil, parmesan, and almonds.', allergens: ['dairy', 'nuts'] },
+      { name: 'Acorn-fed Iberian Ham', price: '24€', desc: 'With crystal bread and tomato.', allergens: ['gluten'] },
+    ]
+  },
+  {
+    title: 'Hot Dishes',
+    items: [
+      { name: 'Arola Bravas', price: '12€', desc: 'Our iconic version of patatas bravas.', allergens: ['eggs'] },
+      { name: 'Flame-Smoked Eggplant', price: '13€', desc: 'With pine nuts, balsamic reduction, and honey.', allergens: ['nuts'] },
+      { name: 'Barceloneta Bombs', price: '14€', desc: 'Meat and potato croquette with a spicy touch.', allergens: ['gluten', 'eggs'] },
+      { name: 'Curry Fried Prawns', price: '18€', desc: 'With mint mayonnaise.', allergens: ['crustaceans', 'eggs', 'mustard'] },
+      { name: 'Glazed Meatballs', price: '15€', desc: 'With melted Manchego cheese.', allergens: ['dairy', 'gluten'] },
+      { name: 'Kimchi Chicken Wings', price: '12€', desc: 'Crispy with spicy Korean sauce and chives.', allergens: ['soy', 'sesame'] },
+      { name: 'Vi Cool Fried Squid Sandwich', price: '14€', desc: 'Our version of the Madrid classic.', allergens: ['gluten', 'molluscs', 'eggs'] },
+      { name: 'Squid Croquettes', price: '13€', desc: 'Creamy in its ink with aioli.', allergens: ['gluten', 'molluscs', 'eggs', 'dairy'] },
+      { name: 'Roasted Meat Cannelloni', price: '16€', desc: 'With truffled bechamel.', allergens: ['gluten', 'dairy'] },
+      { name: 'Prawn Ravioli', price: '17€', desc: 'Wonton pasta, seafood sauce, and parmesan.', allergens: ['gluten', 'crustaceans', 'dairy'] },
+    ]
+  },
+  {
+    title: 'Our Cocas',
+    items: [
+      { name: 'Mediterranean Coca', price: '15€', desc: 'With burrata, basil, sun-dried tomato, and orange.', allergens: ['gluten', 'dairy'] },
+      { name: 'Escalivada Coca', price: '14€', desc: 'Roasted peppers and eggplants with anchovies.', allergens: ['gluten', 'fish'] },
+      { name: 'Roast Beef Coca', price: '16€', desc: 'With caramelized onion and old-style mustard.', allergens: ['gluten', 'mustard'] },
+    ]
+  },
+  {
+    title: 'Desserts',
+    items: [
+      { name: 'Chocolate Textures', price: '9€', desc: 'For cocoa lovers.', allergens: ['dairy', 'soy'] },
+      { name: 'Burnt Catalan Cream', price: '7€', desc: 'With tangerine sorbet.', allergens: ['dairy', 'eggs'] },
+      { name: 'Dark Chocolate Fondue', price: '12€', desc: 'With fresh strawberries and marshmallows.', allergens: ['soy'] },
+      { name: 'Sweet Piña Colada', price: '8€', desc: 'Our version of the classic cocktail.', allergens: ['dairy'] },
+    ]
+  }
+];
+
+const wineSections = [
+  {
+    title: 'Cavas & Champagnes',
+    items: [
+      { name: 'Agustí Torelló i Mata Brut Reserva', price: '28€', desc: 'D.O. Cava', allergens: ['sulphites'] },
+      { name: 'Moët & Chandon Brut Imperial', price: '65€', desc: 'A.O.C. Champagne', allergens: ['sulphites'] },
+    ]
+  },
+  {
+    title: 'White Wines',
+    items: [
+      { name: 'Descomunal (Verdejo)', price: '18€', desc: 'D.O. Rueda', allergens: ['sulphites'] },
+      { name: 'Guitián (Godello)', price: '24€', desc: 'D.O. Valdeorras', allergens: ['sulphites'] },
+      { name: 'La Trucha (Albariño)', price: '26€', desc: 'D.O. Rías Baixas', allergens: ['sulphites'] },
+    ]
+  },
+  {
+    title: 'Red Wines',
+    items: [
+      { name: 'Viernes (Mencía)', price: '19€', desc: 'D.O. Bierzo', allergens: ['sulphites'] },
+      { name: 'Pecado Original (Garnacha)', price: '22€', desc: 'Vinos de Madrid', allergens: ['sulphites'] },
+      { name: 'Mauro (Tempranillo & Syrah)', price: '45€', desc: 'Vino de la Tierra de Castilla y León', allergens: ['sulphites'] },
+      { name: 'L\'Inconscient', price: '28€', desc: 'D.O. Priorat', allergens: ['sulphites'] },
+      { name: 'Phylos 12 months (Tempranillo)', price: '24€', desc: 'D.O. Ribera del Duero', allergens: ['sulphites'] },
+      { name: 'De Blas Serrano', price: '32€', desc: 'D.O. Ribera del Duero', allergens: ['sulphites'] },
+    ]
+  }
+];
+
+const menuSet = {
+  title: 'Tasting Menus',
+  items: [
+    { 
+      name: 'Classic Tapas Menu', 
+      price: '24€ p.p.', 
+      desc: 'Minimum 2 people. A selection of our hits: Bravas, Bombs, Wings, Coca, and Dessert.',
+      allergens: ['gluten', 'dairy', 'eggs', 'soy', 'nuts']
+    },
+    { 
+      name: 'Classic Fingerfood Menu', 
+      price: '30€ p.p.', 
+      desc: 'Complete gourmet snacking experience.',
+      allergens: ['gluten', 'dairy', 'eggs', 'soy', 'nuts', 'molluscs']
+    }
+  ]
+};
+---
+
+<BaseLayout title={t('nav.carta')} lang="en">
+	<Navigation />
+	
+	<main class="container page-content">
+		<h1 class="main-title">Vi Cool Menus</h1>
+		
+    <div class="tabs">
+      <button class="tab-btn active" data-target="food">Food</button>
+      <button class="tab-btn" data-target="menus">Menús</button>
+      <button class="tab-btn" data-target="wines">Wines</button>
+    </div>
+
+		<div id="food" class="tab-content active">
+			{menuSections.map(section => (
+				<div class="menu-section">
+					<h2 class="section-title">{section.title}</h2>
+					<div class="menu-grid">
+						{section.items.map(item => (
+							<div class="menu-item">
+								<div class="menu-header">
+									<h3>{item.name}</h3>
+									<span class="price">{item.price}</span>
+								</div>
+								<p>{item.desc}</p>
+                <div class="allergens-list">
+                  {item.allergens?.map(a => (
+                    <span class="allergen-icon" title={allergens.find(all => all.id === a)?.en}>
+                      {allergens.find(all => all.id === a)?.icon}
+                    </span>
+                  ))}
+                </div>
+							</div>
+						))}
+					</div>
+				</div>
+			))}
+		</div>
+
+    <div id="menus" class="tab-content">
+      <div class="menu-section">
+        <h2 class="section-title">{menuSet.title}</h2>
+        <div class="menu-grid">
+          {menuSet.items.map(item => (
+            <div class="menu-item">
+              <div class="menu-header">
+                <h3>{item.name}</h3>
+                <span class="price">{item.price}</span>
+              </div>
+              <p>{item.desc}</p>
+              <div class="allergens-list">
+                {item.allergens?.map(a => (
+                  <span class="allergen-icon" title={allergens.find(all => all.id === a)?.en}>
+                    {allergens.find(all => all.id === a)?.icon}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div id="wines" class="tab-content">
+      {wineSections.map(section => (
+        <div class="menu-section">
+          <h2 class="section-title">{section.title}</h2>
+          <div class="menu-grid">
+            {section.items.map(item => (
+              <div class="menu-item">
+                <div class="menu-header">
+                  <h3>{item.name}</h3>
+                  <span class="price">{item.price}</span>
+                </div>
+                <p>{item.desc}</p>
+                <div class="allergens-list">
+                  {item.allergens?.map(a => (
+                    <span class="allergen-icon" title={allergens.find(all => all.id === a)?.en}>
+                      {allergens.find(all => all.id === a)?.icon}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <section class="allergen-legend">
+      <h3>Allergen Legend</h3>
+      <div class="legend-grid">
+        {allergens.map(a => (
+          <div class="legend-item">
+            <span class="icon">{a.icon}</span>
+            <span class="label">{a.en}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+	</main>
+
+	<Footer />
+</BaseLayout>
+
+<style>
+	.page-content { padding: 4rem 1.5rem; }
+  .main-title { text-align: center; margin-bottom: 3rem; font-size: 3rem; }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+  .tab-btn {
+    padding: 0.8rem 2rem;
+    border: 2px solid var(--primary-gold);
+    background: transparent;
+    color: var(--primary-gold);
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+  }
+  .tab-btn.active {
+    background: var(--primary-gold);
+    color: white;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+	.menu-container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+	.menu-section {
+		margin-bottom: 4rem;
+	}
+	.section-title {
+		border-bottom: 2px solid var(--primary-gold);
+		display: inline-block;
+		margin-bottom: 2rem;
+		padding-bottom: 0.5rem;
+		color: var(--primary-green);
+    font-size: 1.8rem;
+	}
+	.menu-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 2.5rem;
+	}
+	.menu-item {
+		background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+	}
+  .menu-item:hover {
+    border-left-color: var(--primary-gold);
+    box-shadow: 0 8px 25px rgba(159, 97, 0, 0.1);
+  }
+	.menu-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.8rem;
+	}
+  .menu-header h3 { color: var(--text-dark); margin: 0; font-size: 1.2rem; }
+	.price {
+		color: var(--primary-gold);
+		font-weight: 700;
+    font-size: 1.1rem;
+	}
+  .allergens-list {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+  .allergen-icon {
+    font-size: 1.2rem;
+    cursor: help;
+  }
+
+  .allergen-legend {
+    margin-top: 6rem;
+    padding: 3rem;
+    background: #fdfdfd;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+  .allergen-legend h3 { text-align: center; margin-bottom: 2rem; }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+	@media (max-width: 768px) {
+		.menu-grid { grid-template-columns: 1fr; }
+    .main-title { font-size: 2.2rem; }
+    .tabs { flex-direction: column; align-items: stretch; }
+	}
+</style>
+
+<script>
+  const btns = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-target');
+      
+      btns.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+</script>

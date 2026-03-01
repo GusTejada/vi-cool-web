@@ -1,0 +1,72 @@
+---
+import { getLangFromUrl, useTranslations } from '../assets/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const installText = lang === 'es' ? 'Instalar App' : 'Install App';
+---
+
+<div id="pwa-install-container" class="install-container" style="display: none;">
+  <button id="pwa-install-btn" class="btn btn-pwa">
+    <span class="icon">📱</span> {installText}
+  </button>
+</div>
+
+<style>
+  .install-container {
+    padding: 2rem 0;
+    text-align: center;
+  }
+  .btn-pwa {
+    background-color: var(--primary-green);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(60, 109, 93, 0.3);
+  }
+  .btn-pwa:hover {
+    transform: translateY(-2px);
+    background-color: var(--primary-gold);
+  }
+</style>
+
+<script>
+  let deferredPrompt;
+  const installContainer = document.getElementById('pwa-install-container');
+  const installBtn = document.getElementById('pwa-install-btn');
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+    // Update UI notify the user they can add to home screen
+    if (installContainer) {
+      installContainer.style.display = 'block';
+    }
+  });
+
+  installBtn?.addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    // Show the prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+    // We've used the prompt, and can't use it again, throw it away
+    deferredPrompt = null;
+    // Hide the app provided install promotion
+    if (installContainer) {
+      installContainer.style.display = 'none';
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    // Log install to analytics
+    console.log('INSTALL: Success');
+    if (installContainer) {
+      installContainer.style.display = 'none';
+    }
+  });
+</script>

@@ -1,0 +1,66 @@
+---
+import { getLangFromUrl, useTranslations } from '../assets/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Mock data for 5 latest Google reviews
+const reviews = [
+  { name: 'Maria G.', rating: 5, text: 'Excelente comida y servicio imbatible.' },
+  { name: 'Juan R.', rating: 5, text: 'Las bravas de Sergi Arola son de otro mundo.' },
+  { name: 'Sofia L.', rating: 4, text: 'Ambiente muy cool y platos creativos.' },
+  { name: 'Carlos M.', rating: 5, text: 'Una experiencia gastronómica increíble en Madrid.' },
+  { name: 'Elena P.', rating: 5, text: 'Totalmente recomendable, volveremos pronto.' },
+];
+---
+
+<section class="google-reviews">
+  <div class="container">
+    <h2 class="section-title">{t('home.reviews')}</h2>
+    <div class="reviews-grid">
+      {reviews.map(review => (
+        <div class="review-card">
+          <div class="rating">
+            {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+          </div>
+          <p class="review-text">"{review.text}"</p>
+          <p class="review-author">- {review.name}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  .review-card {
+    background: #fdfdfd;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-top: 4px solid var(--primary-gold);
+  }
+  .rating {
+    color: #ff9800;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  .review-text {
+    font-style: italic;
+    margin-bottom: 1rem;
+    color: #444;
+  }
+  .review-author {
+    font-weight: 700;
+    color: var(--primary-green);
+    text-align: right;
+  }
+</style>

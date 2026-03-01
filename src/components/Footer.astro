@@ -1,0 +1,56 @@
+---
+import { getLangFromUrl, useTranslations } from '../assets/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<footer class="footer">
+  <div class="container footer-content">
+    <div class="footer-section">
+      <h3>VI COOL MADRID</h3>
+      <p>Gastronomía de Sergi Arola</p>
+    </div>
+    <div class="footer-section">
+      <p>&copy; {new Date().getFullYear()} Vi Cool Madrid. {t('footer.rights')}</p>
+    </div>
+    <div class="footer-section social">
+      <a href="https://www.instagram.com/vicoolmadrid" target="_blank">Instagram</a>
+      <a href="/contacto">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--primary-green);
+    color: white;
+    padding: 3rem 0;
+    margin-top: 4rem;
+  }
+  .footer h3 {
+    color: var(--primary-gold);
+    margin-bottom: 1rem;
+  }
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .social a {
+    margin-left: 1rem;
+    color: var(--primary-gold);
+    font-weight: 600;
+  }
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+      text-align: center;
+    }
+    .social a {
+      margin: 0 0.5rem;
+    }
+  }
+</style>

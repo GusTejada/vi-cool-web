@@ -1,0 +1,143 @@
+---
+import { getLangFromUrl, useTranslations } from '../assets/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const pathname = new URL(Astro.url).pathname;
+
+const navItems = [
+  { href: lang === 'es' ? '/' : `/${lang}/`, label: t('nav.home') },
+  { href: lang === 'es' ? '/reservas' : `/${lang}/reservas`, label: t('nav.reservas') },
+  { href: lang === 'es' ? '/carta' : `/${lang}/carta`, label: t('nav.carta') },
+  { href: lang === 'es' ? '/galeria' : `/${lang}/galeria`, label: t('nav.galeria') },
+  { href: lang === 'es' ? '/contacto' : `/${lang}/contacto`, label: t('nav.contacto') },
+];
+---
+
+<header class="header">
+  <div class="container nav-container">
+    <a href={lang === 'es' ? '/' : `/${lang}/`} class="logo">
+      <img src="/img/logo-vicool.png" alt="Vi Cool Logo" />
+    </a>
+
+    <nav class="nav" id="nav-menu">
+      <ul class="nav-list">
+        {navItems.map(item => {
+          // Home route should be an exact match, other routes can be prefix matches
+          const isHome = item.href === '/' || item.href === '/en/';
+          const isActive = isHome ? pathname === item.href : pathname.startsWith(item.href);
+          return (
+            <li>
+              <a href={item.href} class:list={[{ active: isActive }]}>
+                {item.label}
+              </a>
+            </li>
+          );
+        })}
+        <li>
+          <a href={lang === 'es' ? '/en/' : '/'} class="lang-switch">
+            {lang === 'es' ? 'EN' : 'ES'}
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <button class="mobile-toggle" aria-label="Toggle menu" id="menu-toggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .header {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+  }
+  .logo img {
+    height: 40px;
+  }
+  .nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+  }
+  .nav-list a {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: var(--primary-green);
+  }
+  .nav-list a:hover {
+    color: var(--primary-gold);
+  }
+  .nav-list a.active {
+    color: var(--primary-gold);
+    border-bottom: 2px solid var(--primary-gold);
+  }
+  .lang-switch {
+    background: var(--primary-gold);
+    color: white !important;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem !important;
+  }
+
+  .mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .mobile-toggle span {
+    width: 25px;
+    height: 3px;
+    background: var(--primary-gold);
+    transition: 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-toggle {
+      display: flex;
+    }
+    .nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 1rem 0;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    .nav.active {
+      display: block;
+    }
+    .nav-list {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('nav-menu');
+
+  toggle?.addEventListener('click', () => {
+    nav?.classList.toggle('active');
+  });
+</script>

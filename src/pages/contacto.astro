@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { useTranslations } from '../assets/utils';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout title={t('nav.contacto')} lang="es">
+	<Navigation />
+	
+	<main class="container page-content">
+		<h1>Contacto</h1>
+		<div class="contact-grid">
+			<div class="contact-info">
+				<h2>{t('contact.info')}</h2>
+				<p><strong>Dirección:</strong> Calle de Huertas, 12, 28012 Madrid</p>
+				<p><strong>Teléfono:</strong> +34 91 000 00 00</p>
+				<p><strong>Email:</strong> info@vicoolmadrid.com</p>
+				<h3>Horario</h3>
+				<p>Lunes a Domingo: 13:30 - 16:00 | 20:30 - 23:30</p>
+			</div>
+			<div class="map">
+				<!-- Mock Map Placeholder -->
+				<div class="map-placeholder">
+					<p>Google Maps Integration Here</p>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<Footer />
+</BaseLayout>
+
+<style>
+	.page-content { padding: 4rem 1.5rem; }
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		margin-top: 2rem;
+	}
+	.contact-info h2 { margin-bottom: 1.5rem; }
+	.contact-info p { margin-bottom: 1rem; }
+	.map-placeholder {
+		background: #eee;
+		height: 400px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 12px;
+	}
+	@media (max-width: 768px) {
+		.contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+	}
+</style>

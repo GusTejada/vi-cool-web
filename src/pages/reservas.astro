@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { useTranslations } from '../assets/utils';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout title={t('nav.reservas')} lang="es">
+	<Navigation />
+	
+	<main class="container page-content">
+		<h1>{t('nav.reservas')}</h1>
+		<p class="subtitle">Asegura tu mesa en Vi Cool Madrid.</p>
+		
+		<div class="reservation-form">
+			<p>Para reservas, por favor contáctanos directamente o utiliza nuestro sistema online (módulo externo).</p>
+			<a href="tel:+34910000000" class="btn">Llamar ahora</a>
+		</div>
+	</main>
+
+	<Footer />
+</BaseLayout>
+
+<style>
+	.page-content { padding: 4rem 1.5rem; text-align: center; }
+	.subtitle { margin-bottom: 3rem; font-size: 1.2rem; }
+	.reservation-form {
+		max-width: 600px;
+		margin: 0 auto;
+		background: #f9f9f9;
+		padding: 3rem;
+		border-radius: 8px;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+	}
+	.reservation-form p { margin-bottom: 2rem; }
+</style>

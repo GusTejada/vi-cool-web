@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import InstagramFeed from '../components/InstagramFeed.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
+import InstallButton from '../components/InstallButton.astro';
+import { useTranslations } from '../assets/utils';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout title={t('nav.home')} lang="es">
+	<Navigation />
+	
+	<main>
+		<section class="hero" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/img/ViCool.jpeg');">
+			<div class="container hero-content">
+				<h1>{t('home.welcome')}</h1>
+				<p>{t('home.subtitle')}</p>
+				<div class="hero-actions">
+					<a href="/reservas" class="btn">{t('nav.reservas')}</a>
+					<a href="/carta" class="btn btn-green">{t('nav.carta')}</a>
+				</div>
+			</div>
+		</section>
+
+		<InstallButton />
+
+		<section class="intro">
+			<div class="container grid-2">
+				<div class="text">
+					<h2>Tradición y Modernidad</h2>
+					<p>En Vi Cool, Sergi Arola reinterpreta los clásicos de la cocina española con un toque vanguardista y desenfadado. Un espacio diseñado para compartir y disfrutar de sabores auténticos en un ambiente único.</p>
+				</div>
+				<div class="image">
+					<img src="/img/ViCool_1.jpeg" alt="Restaurante Vi Cool" class="rounded" />
+				</div>
+			</div>
+		</section>
+
+		<InstagramFeed />
+		<GoogleReviews />
+	</main>
+
+	<Footer />
+</BaseLayout>
+
+<style>
+	.hero {
+		height: 80vh;
+		background-size: cover;
+		background-position: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		color: white;
+	}
+	.hero h1 {
+		font-size: 3.5rem;
+		margin-bottom: 1rem;
+		color: var(--primary-gold);
+	}
+	.hero p {
+		font-size: 1.5rem;
+		margin-bottom: 2rem;
+		font-weight: 300;
+	}
+	.hero-actions {
+		display: flex;
+		gap: 1rem;
+		justify-content: center;
+	}
+	.grid-2 {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4rem;
+		align-items: center;
+	}
+	.rounded {
+		border-radius: 12px;
+		box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+	}
+	@media (max-width: 768px) {
+		.hero h1 { font-size: 2.5rem; }
+		.hero p { font-size: 1.2rem; }
+		.grid-2 { grid-template-columns: 1fr; gap: 2rem; }
+		.hero-actions { flex-direction: column; }
+	}
+</style>

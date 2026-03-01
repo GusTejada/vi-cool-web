@@ -1,0 +1,17 @@
+{
+  "name": "afraid-antimatter",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.0",
+    "@vite-pwa/astro": "^1.2.0",
+    "astro": "^5.17.1",
+    "workbox-window": "^7.4.0"
+  }
+}

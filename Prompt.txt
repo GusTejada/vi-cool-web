@@ -1,0 +1,5 @@
+Quiero que me crees una web, con astro, mobile first, con 4 secciones, reservas, contacto, carta,galeria, home, que sea multidioma, español e ingles, estos son los colore principales:
+los colores principales son: #9f6100 y #3c6d5d, la tipografía es:'Josefin Sans', sans-serif.las imagenes y el logo estan en esta ruta:
+../img/
+en la home quiero integrar los 5 ultimos comentarios, fotos que van subiendo a instagram:https://www.instagram.com/vicoolmadrid?igsh=MWdsMTd6ZTF2NW55OQ==
+también las 5 últimas reseñas que ponen en google

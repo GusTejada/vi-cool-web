@@ -1,0 +1,56 @@
+---
+import { getLangFromUrl, useTranslations } from '../assets/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Mock data for 5 latest Instagram posts
+const posts = [
+  { id: 1, img: '/img/1.jpg', link: 'https://www.instagram.com/vicoolmadrid' },
+  { id: 2, img: '/img/2.jpg', link: 'https://www.instagram.com/vicoolmadrid' },
+  { id: 3, img: '/img/3.jpg', link: 'https://www.instagram.com/vicoolmadrid' },
+  { id: 4, img: '/img/5.jpg', link: 'https://www.instagram.com/vicoolmadrid' },
+  { id: 5, img: '/img/6.jpg', link: 'https://www.instagram.com/vicoolmadrid' },
+];
+---
+
+<section class="instagram-feed">
+  <div class="container">
+    <h2 class="section-title">{t('home.instagram')}</h2>
+    <div class="grid">
+      {posts.map(post => (
+        <a href={post.link} target="_blank" class="post-card">
+          <img src={post.img} alt="Instagram Post" loading="lazy" />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  .post-card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+  .post-card:hover img {
+    transform: scale(1.05);
+  }
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+</style>

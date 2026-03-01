@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { useTranslations } from '../assets/utils';
+import { allergens } from '../assets/allergens';
+
+const t = useTranslations('es');
+
+const menuSections = [
+  {
+    title: 'Raciones Frías',
+    items: [
+      { name: 'Ensalada de Burrata', price: '14€', desc: 'Con remolacha, lombarda y frutos secos.', allergens: ['dairy', 'nuts'] },
+      { name: 'Carpaccio de Secreto Ibérico', price: '17€', desc: 'Con aceite de Idiazábal y manzana Granny Smith.', allergens: ['dairy'] },
+      { name: 'Steak Tartar Vi Cool', price: '19€', desc: 'Con infusión de soja, wasabi y jengibre.', allergens: ['soy', 'mustard'] },
+      { name: 'Tártar de Atún', price: '21€', desc: 'Con mayonesa de wasabi, ají, aguacate y huevas de tobiko.', allergens: ['fish', 'soy', 'eggs'] },
+      { name: 'Terrina de Foie Gras', price: '18€', desc: 'Con mango, especias y frambuesa.', allergens: ['gluten'] },
+      { name: 'Carpaccio de Pulpo', price: '16€', desc: 'Con tomate confitado, aceitunas verdes y pimentón.', allergens: ['molluscs'] },
+      { name: 'Carpaccio de Portobello', price: '15€', desc: 'Con aceite de trufa blanca, parmesano y almendras.', allergens: ['dairy', 'nuts'] },
+      { name: 'Jamón Ibérico de Bellota', price: '24€', desc: 'Con pan de cristal y tomate.', allergens: ['gluten'] },
+    ]
+  },
+  {
+    title: 'Raciones Calientes',
+    items: [
+      { name: 'Las Bravas de Arola', price: '12€', desc: 'Nuestra versión icónica de las patatas bravas.', allergens: ['eggs'] },
+      { name: 'Berenjena a la Llama', price: '13€', desc: 'Con piñones, reducción de balsámico y miel.', allergens: ['nuts'] },
+      { name: 'Bombas de la Barceloneta', price: '14€', desc: 'Croqueta de carne y patata con un toque picante.', allergens: ['gluten', 'eggs'] },
+      { name: 'Langostinos Fritos al Curry', price: '18€', desc: 'Con mayonesa de menta.', allergens: ['crustaceans', 'eggs', 'mustard'] },
+      { name: 'Albóndigas Glaseadas', price: '15€', desc: 'Con queso Manchego fundido.', allergens: ['dairy', 'gluten'] },
+      { name: 'Alitas de Pollo Kimchi', price: '12€', desc: 'Crujientes con salsa coreana picante y cebollino.', allergens: ['soy', 'sesame'] },
+      { name: 'Bocata de Calamares Vi Cool', price: '14€', desc: 'Nuestra versión del clásico madrileño.', allergens: ['gluten', 'molluscs', 'eggs'] },
+      { name: 'Croquetas de Chipirón', price: '13€', desc: 'Cremosas en su tinta con alioli.', allergens: ['gluten', 'molluscs', 'eggs', 'dairy'] },
+      { name: 'Canelones de Carne Asada', price: '16€', desc: 'Con bechamel trufada.', allergens: ['gluten', 'dairy'] },
+      { name: 'Raviolis de Langostinos', price: '17€', desc: 'Pasta wonton, salsa de marisco y parmesano.', allergens: ['gluten', 'crustaceans', 'dairy'] },
+    ]
+  },
+  {
+    title: 'Nuestras Cocas',
+    items: [
+      { name: 'Coca Mediterránea', price: '15€', desc: 'Con burrata, albahaca, tomate seco y naranja.', allergens: ['gluten', 'dairy'] },
+      { name: 'Coca de Escalivada', price: '14€', desc: 'Pimientos y berenjenas asadas con anchoas.', allergens: ['gluten', 'fish'] },
+      { name: 'Coca de Roast Beef', price: '16€', desc: 'Con cebolla caramelizada y mostaza antigua.', allergens: ['gluten', 'mustard'] },
+    ]
+  },
+  {
+    title: 'Postres',
+    items: [
+      { name: 'Chocolate en Texturas', price: '9€', desc: 'Para los amantes del cacao.', allergens: ['dairy', 'soy'] },
+      { name: 'Crema Catalana Quemada', price: '7€', desc: 'Con sorbete de mandarina.', allergens: ['dairy', 'eggs'] },
+      { name: 'Fondue de Chocolate Negro', price: '12€', desc: 'Con fresas frescas y nubes.', allergens: ['soy'] },
+      { name: 'Piña Colada Dulce', price: '8€', desc: 'Nuestra versión del cóctel clásico.', allergens: ['dairy'] },
+    ]
+  }
+];
+
+const wineSections = [
+  {
+    title: 'Cavas y Champagnes',
+    items: [
+      { name: 'Agustí Torelló i Mata Brut Reserva', price: '28€', desc: 'D.O. Cava', allergens: ['sulphites'] },
+      { name: 'Moët & Chandon Brut Imperial', price: '65€', desc: 'A.O.C. Champagne', allergens: ['sulphites'] },
+    ]
+  },
+  {
+    title: 'Vinos Blancos',
+    items: [
+      { name: 'Descomunal (Verdejo)', price: '18€', desc: 'D.O. Rueda', allergens: ['sulphites'] },
+      { name: 'Guitián (Godello)', price: '24€', desc: 'D.O. Valdeorras', allergens: ['sulphites'] },
+      { name: 'La Trucha (Albariño)', price: '26€', desc: 'D.O. Rías Baixas', allergens: ['sulphites'] },
+    ]
+  },
+  {
+    title: 'Vinos Tintos',
+    items: [
+      { name: 'Viernes (Mencía)', price: '19€', desc: 'D.O. Bierzo', allergens: ['sulphites'] },
+      { name: 'Pecado Original (Garnacha)', price: '22€', desc: 'Vinos de Madrid', allergens: ['sulphites'] },
+      { name: 'Mauro (Tempranillo & Syrah)', price: '45€', desc: 'Vino de la Tierra de Castilla y León', allergens: ['sulphites'] },
+      { name: 'L\'Inconscient', price: '28€', desc: 'D.O. Priorat', allergens: ['sulphites'] },
+      { name: 'Phylos 12 meses (Tempranillo)', price: '24€', desc: 'D.O. Ribera del Duero', allergens: ['sulphites'] },
+      { name: 'De Blas Serrano', price: '32€', desc: 'D.O. Ribera del Duero', allergens: ['sulphites'] },
+    ]
+  }
+];
+
+const menuSet = {
+  title: 'Menús Degustación',
+  items: [
+    { 
+      name: 'Menú Tapas Clásicas', 
+      price: '24€ p.p.', 
+      desc: 'Mínimo 2 personas. Una selección de nuestros hits: Bravas, Bombas, Alitas, Coca y Postre.',
+      allergens: ['gluten', 'dairy', 'eggs', 'soy', 'nuts']
+    },
+    { 
+      name: 'Classic Fingerfood Menu', 
+      price: '30€ p.p.', 
+      desc: 'Experiencia completa de picoteo gourmet.',
+      allergens: ['gluten', 'dairy', 'eggs', 'soy', 'nuts', 'molluscs']
+    }
+  ]
+};
+---
+
+<BaseLayout title={t('nav.carta')} lang="es">
+	<Navigation />
+	
+	<main class="container page-content">
+		<h1 class="main-title">Cartas Vi Cool</h1>
+		
+    <div class="tabs">
+      <button class="tab-btn active" data-target="food">Comida</button>
+      <button class="tab-btn" data-target="menus">Menús</button>
+      <button class="tab-btn" data-target="wines">Vinos</button>
+    </div>
+
+		<div id="food" class="tab-content active">
+			{menuSections.map(section => (
+				<div class="menu-section">
+					<h2 class="section-title">{section.title}</h2>
+					<div class="menu-grid">
+						{section.items.map(item => (
+							<div class="menu-item">
+								<div class="menu-header">
+									<h3>{item.name}</h3>
+									<span class="price">{item.price}</span>
+								</div>
+								<p>{item.desc}</p>
+                <div class="allergens-list">
+                  {item.allergens?.map(a => (
+                    <span class="allergen-icon" title={allergens.find(all => all.id === a)?.es}>
+                      {allergens.find(all => all.id === a)?.icon}
+                    </span>
+                  ))}
+                </div>
+							</div>
+						))}
+					</div>
+				</div>
+			))}
+		</div>
+
+    <div id="menus" class="tab-content">
+      <div class="menu-section">
+        <h2 class="section-title">{menuSet.title}</h2>
+        <div class="menu-grid">
+          {menuSet.items.map(item => (
+            <div class="menu-item">
+              <div class="menu-header">
+                <h3>{item.name}</h3>
+                <span class="price">{item.price}</span>
+              </div>
+              <p>{item.desc}</p>
+              <div class="allergens-list">
+                {item.allergens?.map(a => (
+                  <span class="allergen-icon" title={allergens.find(all => all.id === a)?.es}>
+                    {allergens.find(all => all.id === a)?.icon}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div id="wines" class="tab-content">
+      {wineSections.map(section => (
+        <div class="menu-section">
+          <h2 class="section-title">{section.title}</h2>
+          <div class="menu-grid">
+            {section.items.map(item => (
+              <div class="menu-item">
+                <div class="menu-header">
+                  <h3>{item.name}</h3>
+                  <span class="price">{item.price}</span>
+                </div>
+                <p>{item.desc}</p>
+                <div class="allergens-list">
+                  {item.allergens?.map(a => (
+                    <span class="allergen-icon" title={allergens.find(all => all.id === a)?.es}>
+                      {allergens.find(all => all.id === a)?.icon}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <section class="allergen-legend">
+      <h3>Leyenda de Alérgenos</h3>
+      <div class="legend-grid">
+        {allergens.map(a => (
+          <div class="legend-item">
+            <span class="icon">{a.icon}</span>
+            <span class="label">{a.es}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+	</main>
+
+	<Footer />
+</BaseLayout>
+
+<style>
+	.page-content { padding: 4rem 1.5rem; }
+  .main-title { text-align: center; margin-bottom: 3rem; font-size: 3rem; }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+  .tab-btn {
+    padding: 0.8rem 2rem;
+    border: 2px solid var(--primary-gold);
+    background: transparent;
+    color: var(--primary-gold);
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: 0.3s;
+  }
+  .tab-btn.active {
+    background: var(--primary-gold);
+    color: white;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+	.menu-container {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+	.menu-section {
+		margin-bottom: 4rem;
+	}
+	.section-title {
+		border-bottom: 2px solid var(--primary-gold);
+		display: inline-block;
+		margin-bottom: 2rem;
+		padding-bottom: 0.5rem;
+		color: var(--primary-green);
+    font-size: 1.8rem;
+	}
+	.menu-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 2.5rem;
+	}
+	.menu-item {
+		background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    border-left: 3px solid transparent;
+    transition: 0.3s;
+	}
+  .menu-item:hover {
+    border-left-color: var(--primary-gold);
+    box-shadow: 0 8px 25px rgba(159, 97, 0, 0.1);
+  }
+	.menu-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.8rem;
+	}
+  .menu-header h3 { color: var(--text-dark); margin: 0; font-size: 1.2rem; }
+	.price {
+		color: var(--primary-gold);
+		font-weight: 700;
+    font-size: 1.1rem;
+	}
+  .allergens-list {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+  .allergen-icon {
+    font-size: 1.2rem;
+    cursor: help;
+  }
+
+  .allergen-legend {
+    margin-top: 6rem;
+    padding: 3rem;
+    background: #fdfdfd;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+  .allergen-legend h3 { text-align: center; margin-bottom: 2rem; }
+  .legend-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+	@media (max-width: 768px) {
+		.menu-grid { grid-template-columns: 1fr; }
+    .main-title { font-size: 2.2rem; }
+    .tabs { flex-direction: column; align-items: stretch; }
+	}
+</style>
+
+<script>
+  const btns = document.querySelectorAll('.tab-btn');
+  const contents = document.querySelectorAll('.tab-content');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-target');
+      
+      btns.forEach(b => b.classList.remove('active'));
+      contents.forEach(c => c.classList.remove('active'));
+      
+      btn.classList.add('active');
+      document.getElementById(target).classList.add('active');
+    });
+  });
+</script>
