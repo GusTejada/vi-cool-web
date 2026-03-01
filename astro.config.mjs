@@ -10,10 +10,8 @@ export default defineConfig({
     sitemap(),
     AstroPWA({
       mode: "production",
-      base: "/",
-      scope: "/",
-      id: "/",
       registerType: "autoUpdate",
+      injectRegister: "script",
       manifest: {
         name: "Vi Cool Madrid",
         short_name: "Vi Cool",
@@ -21,7 +19,7 @@ export default defineConfig({
         theme_color: "#3c6d5d",
         background_color: "#ffffff",
         display: "standalone",
-        start_url: "/",
+        start_url: ".",
         icons: [
           {
             src: "/img/pwa-192x192.png",
@@ -43,7 +41,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,webp,jpeg,jpg}"],
-        navigateFallback: "/",
+        navigateFallback: null, // Allow i18n routes to handle fallbacks
       },
       devOptions: {
         enabled: true,

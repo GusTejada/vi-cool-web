@@ -97,17 +97,5 @@ import { pwaInfo } from 'virtual:pwa-info';
 	</head>
 	<body>
 		<slot />
-    <script>
-      import { registerSW } from 'virtual:pwa-register';
-      registerSW({
-        immediate: true,
-        onRegisteredSW(swUrl, r) {
-          console.log(`Service Worker at: ${swUrl}`);
-        },
-        onRegisterError(error) {
-          console.error('Service Worker registration failed:', error);
-        }
-      });
-    </script>
 	</body>
 </html>
