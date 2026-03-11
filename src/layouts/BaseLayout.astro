@@ -50,6 +50,8 @@ const restaurantSchema = {
   "priceRange": "$$$",
   "openingHours": "Mo-Su 13:30-16:00, 20:30-23:30"
 };
+
+import { pwaInfo } from 'virtual:pwa-info';
 ---
 
 <!doctype html>
@@ -91,6 +93,7 @@ const restaurantSchema = {
     <!-- PWA -->
     <meta name="theme-color" content="#3c6d5d" />
     <link rel="apple-touch-icon" href="/img/pwa-192x192.png" />
+    {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
 	</head>
 	<body>
 		<slot />
