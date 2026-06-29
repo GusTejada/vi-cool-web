@@ -1,5 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations } from '../assets/utils';
+// src/components/Navbar.astro
+import ThemeToggle from './ThemeToggle.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -16,9 +18,16 @@ const navItems = [
 
 <header class="header">
   <div class="container nav-container">
-    <a href={lang === 'es' ? '/' : `/${lang}/`} class="logo">
+    <!-- <a href={lang === 'es' ? '/' : `/${lang}/`} class="logo">
       <img src="/img/logo-vicool.png" alt="Vi Cool Logo" />
-    </a>
+    </a> -->
+
+    <div class="logo-container">
+       <a href={lang === 'es' ? '/' : `/${lang}/`} class="logo">
+        <img src="/img/logo-vicool.png" alt="Logo Claro" class="logo-light" />
+        <img src="/img/logo-vicool-white.png" alt="Logo Oscuro" class="logo-dark" />
+      </a>
+    </div>
 
     <nav class="nav" id="nav-menu">
       <ul class="nav-list">
@@ -39,6 +48,11 @@ const navItems = [
             {lang === 'es' ? 'EN' : 'ES'}
           </a>
         </li>
+        <li>
+          <div class="theme-wrapper">
+            <ThemeToggle />
+          </div>
+        </li>
       </ul>
     </nav>
 
@@ -52,12 +66,16 @@ const navItems = [
 
 <style>
   .header {
-    background: white;
+    background: var(--background);
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
   }
+  /* :global(.dark) .header {
+    background-color: #1a202c;
+    border-color: #2d3748;
+  } */
   .nav-container {
     display: flex;
     justify-content: space-between;
@@ -130,6 +148,22 @@ const navItems = [
       align-items: center;
       gap: 1.5rem;
     }
+  }
+
+  /* Por defecto (Modo Claro) */
+  .logo-dark {
+    display: none;
+  }
+  .logo-light {
+    display: block;
+  }
+
+  /* Cuando se activa el Modo Oscuro en el html */
+  :global(.dark) .logo-dark {
+    display: block;
+  }
+  :global(.dark) .logo-light {
+    display: none;
   }
 </style>
 
