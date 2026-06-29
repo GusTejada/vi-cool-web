@@ -94,6 +94,28 @@ import { pwaInfo } from 'virtual:pwa-info';
     <meta name="theme-color" content="#3c6d5d" />
     <link rel="apple-touch-icon" href="/img/pwa-192x192.png" />
     {pwaInfo && <Fragment set:html={pwaInfo.webManifest.linkTag} />}
+
+
+
+    <script is:inline>
+      const getTheme = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const theme = getTheme();
+      
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      // Guarda el tema actual para que esté disponible en otros scripts
+      window.localStorage.setItem('theme', theme);
+    </script>
 	</head>
 	<body>
 		<slot />
